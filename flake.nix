@@ -8,9 +8,13 @@
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    jackdaw = {
+      url = "github:dispersia/jackdaw";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, rust-overlay }:
+  outputs = { self, nixpkgs, flake-utils, rust-overlay, jackdaw }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         overlays = [ (import rust-overlay) ];
@@ -80,6 +84,13 @@
         ];
       in
       {
+        packages.jackdaw = jackdaw.packages.${system}.default;
+
+        apps.jackdaw = {
+          type = "app";
+          program = "${jackdaw.packages.${system}.default}/bin/jackdaw";
+        };
+
         devShells.default = pkgs.mkShell {
           inherit buildInputs;
 
@@ -88,6 +99,7 @@
             androidSdk
             pkgs.jdk21
             pkgs.android-tools
+            jackdaw.packages.${system}.default
           ];
 
           LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath runtimeLibs;
