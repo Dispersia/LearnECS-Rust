@@ -1,7 +1,0 @@
-# jackdaw project settings.
-
-# The game plugin type inside your lib crate.
-plugin = "GamePlugin"
-
-[[run]]
-name = "Play"
