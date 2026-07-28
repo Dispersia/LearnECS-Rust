@@ -2,6 +2,6 @@ use bevy::prelude::*;
 
 #[derive(Component, FromTemplate)]
 pub struct Selected {
-    visual_entity: Entity,
-    show_scale: f32,
+    pub visual_entity: Entity,
+    pub show_scale: f32,
 }

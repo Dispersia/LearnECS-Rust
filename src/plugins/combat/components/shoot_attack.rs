@@ -2,6 +2,6 @@ use bevy::prelude::*;
 
 #[derive(Component, FromTemplate)]
 pub struct ShootAttack {
-    timer: f32,
-    timer_max: f32,
+    pub timer: f32,
+    pub timer_max: f32,
 }
