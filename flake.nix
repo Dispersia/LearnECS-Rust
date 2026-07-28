@@ -26,7 +26,7 @@
         platformVersion = "34";      # SDK platform to compile against
         ndkVersion = "26.3.11579264";
 
-        rustToolchain = pkgs.rust-bin.stable.latest.default.override {
+        rustToolchain = pkgs.rust-bin.nightly.latest.default.override {
           extensions = [ "rust-src" "rust-analyzer" "clippy" "rustfmt" ];
           targets = [
             "aarch64-linux-android"

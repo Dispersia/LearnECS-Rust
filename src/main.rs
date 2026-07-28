@@ -1,5 +1,5 @@
-use bevy::prelude::*;
+use learn_ecs;
 
 fn main() {
-    App::new().add_plugins(DefaultPlugins).run();
+    learn_ecs::create_app();
 }

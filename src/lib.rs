@@ -1,28 +1,30 @@
-//! Game library: your binary adds [`GamePlugin`]. Put your game setup
-//! (systems, resources, observers) in here.
-//!
-//! # Components
-//!
-//! Write components anywhere in this library (any module, not
-//! `main.rs`), deriving `Component, Reflect, Default` with
-//! `#[reflect(Component, Default)]`. No registration code is needed;
-//! Bevy's `reflect_auto_register` picks up the `Reflect` derive.
+mod plugins;
+mod prefabs;
+
+use plugins::CombatPlugin;
+use prefabs::prelude::*;
 
 use bevy::prelude::*;
 
-#[derive(Default)]
-pub struct GamePlugin;
-
-impl Plugin for GamePlugin {
-    fn build(&self, _app: &mut App) {}
+pub fn create_app() -> AppExit {
+    App::new()
+        .add_plugins(DefaultPlugins)
+        .add_plugins(GamePlugin)
+        .run()
 }
 
-// Example: an editable component. Uncomment, save, and Rebuild to see
-// `Health` in the inspector's Add Component list.
-//
-#[derive(Component, Reflect, Default)]
-#[reflect(Component, Default)]
-pub struct Health {
-    pub max: f32,
-    pub current: f32,
+#[derive(Default)]
+struct GamePlugin;
+
+impl Plugin for GamePlugin {
+    fn build(&self, app: &mut App) {
+        app.add_plugins(CombatPlugin);
+        app.add_systems(Startup, spawn);
+    }
+}
+
+fn spawn(mut commands: Commands) {
+    commands.queue_spawn_scene(zombie(Vec3::new(0., 0., 0.)));
+
+    commands.queue_spawn_scene(soldier(Vec3::new(0., 0., 0.)));
 }
